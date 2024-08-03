@@ -1,11 +1,22 @@
 package br.com.guifroes1984.productbackend.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TBL_PRODUTO")
 public class Produto {
 
+	@Id
 	private int id;
 	private String nome;
 	private String descricao;
+	
+	@ManyToOne
 	private Categoria categoria;
+	
 	private boolean promocao;
 	private boolean novoProduto;
 
