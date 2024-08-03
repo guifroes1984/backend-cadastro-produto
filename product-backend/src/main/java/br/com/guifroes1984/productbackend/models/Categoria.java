@@ -1,8 +1,16 @@
 package br.com.guifroes1984.productbackend.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TBL_CATEGORIA")
 public class Categoria {
 
+	@Id
 	private int id;
+	
 	private String nome;
 
 	public Categoria(int id, String nome) {
