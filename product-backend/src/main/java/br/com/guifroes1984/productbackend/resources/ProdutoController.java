@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,12 +17,16 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.guifroes1984.productbackend.models.Produto;
+import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
 
 @RestController
 @CrossOrigin
 public class ProdutoController {
 
 	private List<Produto> produtos = new ArrayList<>();
+	
+	@Autowired
+	public ProdutoRepository produtoRepository;
 	
 	@PostMapping("produtos")
 	public ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
@@ -49,7 +54,7 @@ public class ProdutoController {
 
 	@GetMapping("produtos")
 	public List<Produto> getProdutos() {
-		return produtos;
+		return produtoRepository.findAll();
 	}
 
 }
