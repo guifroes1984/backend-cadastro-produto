@@ -30,8 +30,8 @@ public class ProdutoController {
 	
 	@PostMapping("produtos")
 	public ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
-		produto.setId(produtos.size() + 1);
-		produtos.add(produto);
+		
+		produto = produtoRepository.save(produto);
 		
 		URI local = ServletUriComponentsBuilder
 				.fromCurrentRequest()
@@ -44,12 +44,10 @@ public class ProdutoController {
 
 	@GetMapping("produtos/{id}")
 	public ResponseEntity<Produto> getProduto(@PathVariable int id) {
-		Produto prod = produtos.stream()
-								.filter(p -> p.getId() == id)
-								.findFirst()
-								.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
+		Produto produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
 		
-		return ResponseEntity.ok(prod);
+		return ResponseEntity.ok(produto);
 	}
 
 	@GetMapping("produtos")
