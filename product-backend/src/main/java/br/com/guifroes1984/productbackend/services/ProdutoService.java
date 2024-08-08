@@ -9,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.models.Produto;
-import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
 
 @Service
@@ -19,7 +18,7 @@ public class ProdutoService {
 	public ProdutoRepository produtoRepository;
 	
 	@Autowired
-	public CategoriaRepository categoriaRepository;
+	public CategoriaService categoriaService;
 	
 	public Produto getById(int id) {
 		Produto produto = produtoRepository.findById(id)
@@ -48,8 +47,7 @@ public class ProdutoService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não pode ser vazia");
 		}
 		
-		Categoria categoria = categoriaRepository.findById(produtoAtualizado.getCategoria().getId())
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrado."));
+		Categoria categoria = categoriaService.getById(produtoAtualizado.getCategoria().getId());
 		
 		produto.setDescricao(produtoAtualizado.getDescricao());
 		produto.setNome(produtoAtualizado.getNome());
