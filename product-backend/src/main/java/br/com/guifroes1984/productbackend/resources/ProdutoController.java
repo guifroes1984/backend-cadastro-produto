@@ -21,6 +21,7 @@ import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.models.Produto;
 import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
+import br.com.guifroes1984.productbackend.services.ProdutoService;
 
 @RestController
 @CrossOrigin
@@ -31,6 +32,9 @@ public class ProdutoController {
 	
 	@Autowired
 	public CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	public ProdutoService produtoService;
 	
 	@PostMapping("produtos")
 	public ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
@@ -48,9 +52,7 @@ public class ProdutoController {
 
 	@GetMapping("produtos/{id}")
 	public ResponseEntity<Produto> getProduto(@PathVariable int id) {
-		Produto produto = produtoRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
-		
+		Produto produto = produtoService.getById(id);
 		return ResponseEntity.ok(produto);
 	}
 
