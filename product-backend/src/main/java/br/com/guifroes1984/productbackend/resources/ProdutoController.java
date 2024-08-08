@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.models.Produto;
+import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
 
 @RestController
@@ -25,6 +28,9 @@ public class ProdutoController {
 	
 	@Autowired
 	public ProdutoRepository produtoRepository;
+	
+	@Autowired
+	public CategoriaRepository categoriaRepository;
 	
 	@PostMapping("produtos")
 	public ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
@@ -62,6 +68,30 @@ public class ProdutoController {
 		produtoRepository.delete(produto);
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("produtos/{id}")
+	public ResponseEntity<Void> atualizarProduto(@PathVariable int id, @RequestBody Produto produtoAtualizado) {
+		
+		Produto produto = produtoRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
+		
+		if (produtoAtualizado.getCategoria() == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não pode ser vazia");
+		}
+		
+		Categoria categoria = categoriaRepository.findById(produtoAtualizado.getCategoria().getId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrado."));
+		
+		produto.setDescricao(produtoAtualizado.getDescricao());
+		produto.setNome(produtoAtualizado.getNome());
+		produto.setPreco(produtoAtualizado.getPreco());
+		produto.setNovoProduto(produtoAtualizado.isNovoProduto());
+		produto.setPromocao(produtoAtualizado.isPromocao());
+		produto.setCategoria(categoria);
+		
+		produtoRepository.save(produto);
+		return ResponseEntity.ok().build();
 	}
 
 }
