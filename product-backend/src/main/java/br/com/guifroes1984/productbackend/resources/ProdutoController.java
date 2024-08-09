@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,12 +21,13 @@ import br.com.guifroes1984.productbackend.services.ProdutoService;
 
 @RestController
 @CrossOrigin
+@RequestMapping("produtos")
 public class ProdutoController {
 	
 	@Autowired
 	public ProdutoService produtoService;
 	
-	@PostMapping("produtos")
+	@PostMapping
 	public ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
 		
 		produto = produtoService.salvar(produto);
@@ -39,24 +41,24 @@ public class ProdutoController {
 		return ResponseEntity.created(local).body(produto);
 	}
 
-	@GetMapping("produtos/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<Produto> getProduto(@PathVariable int id) {
 		Produto produto = produtoService.getById(id);
 		return ResponseEntity.ok(produto);
 	}
 
-	@GetMapping("produtos")
+	@GetMapping
 	public List<Produto> getProdutos() {
 		return produtoService.getAll();
 	}
 	
-	@DeleteMapping("produtos/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<Void> removeProduto(@PathVariable int id) {
 		produtoService.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("produtos/{id}")
+	@PutMapping("{id}")
 	public ResponseEntity<Void> atualizarProduto(@PathVariable int id, @RequestBody Produto produtoAtualizado) {
 		produtoService.atualizar(id, produtoAtualizado);
 		return ResponseEntity.ok().build();
