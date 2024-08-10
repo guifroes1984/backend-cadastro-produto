@@ -48,8 +48,8 @@ public class ProdutoController {
 	}
 
 	@GetMapping
-	public List<Produto> getProdutos() {
-		return produtoService.getAll();
+	public ResponseEntity<List<Produto>> getProdutos() {
+		return ResponseEntity.ok(produtoService.getAll());
 	}
 	
 	@DeleteMapping("{id}")

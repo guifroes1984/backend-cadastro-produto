@@ -14,17 +14,34 @@ import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 public class CategoriaService {
 	
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	public CategoriaRepository categoriaRepository;
 	
 	public Categoria getById(int id) {
-		Categoria categoria = categoriaRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrado."));
+		Categoria Categoria = categoriaRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
 		
-		return categoria;
+		return Categoria;
 	}
 	
 	public List<Categoria> getAll() {
 		return categoriaRepository.findAll();
+	}
+	
+	public Categoria salvar(Categoria categoria) {
+		return categoriaRepository.save(categoria);
+	}
+	
+	public void deleteById(int id) {
+		Categoria Categoria = getById(id);
+		categoriaRepository.delete(Categoria);
+	}
+	
+	public void atualizar(int id, Categoria categoriaAtualizado) {
+		Categoria Categoria = getById(id);
+
+		Categoria.setNome(categoriaAtualizado.getNome());
+		
+		categoriaRepository.save(Categoria);
 	}
 
 }
