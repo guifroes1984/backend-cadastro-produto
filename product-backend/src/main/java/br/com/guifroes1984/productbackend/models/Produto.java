@@ -13,7 +13,7 @@ public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String nome;
 	private String descricao;
 	
@@ -23,15 +23,15 @@ public class Produto {
 	private boolean promocao;
 	private boolean novoProduto;
 
-	private double preco;
+	private Double preco;
 
-	public Produto(int id, String nome, double preco) {
+	public Produto(Long id, String nome, double preco) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 	}
 
-	public Produto(int id, String nome, String descricao, Categoria categoria, boolean promocao, boolean novoProduto,
+	public Produto(Long id, String nome, String descricao, Categoria categoria, boolean promocao, boolean novoProduto,
 			double preco) {
 		super();
 		this.id = id;
@@ -47,11 +47,11 @@ public class Produto {
 
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -63,11 +63,11 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	public double getPreco() {
+	public Double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(double preco) {
+	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 

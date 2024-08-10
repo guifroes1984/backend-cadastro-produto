@@ -12,11 +12,11 @@ public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	private String nome;
 
-	public Categoria(int id, String nome) {
+	public Categoria(Integer id, String nome) {
 		this.id = id;
 		this.nome = nome;
 	}
@@ -25,11 +25,11 @@ public class Categoria {
 
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
