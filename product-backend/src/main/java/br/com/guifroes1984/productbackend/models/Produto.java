@@ -9,10 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
 
 
 
@@ -27,24 +25,18 @@ public class Produto implements Serializable {
 	private Long id;
 	
 	@Column(nullable = false, length = 255)
-	@NotBlank(message = "O nome não pode ser em branco")
-	@Size(min = 3, max = 255, message = "Comprimento do nome min=3 e max=255")
 	private String nome;
 	
 	@Column(nullable = false, length = 1024)
-	@NotBlank(message = "Descrição não pode ser em branco")
-	@Size(min = 3, max = 1024, message = "Comprimento do descrição min=3 e max=1024")
 	private String descricao;
 
 	private boolean promocao;
 	
 	private boolean novoProduto;
 
-	@Min(value = 0, message = "Preço min valor = 0")
 	private Double preco;
 	
 	@ManyToOne
-	@Valid
 	private Categoria categoria;
 
 	public Produto(Long id, String nome, double preco) {
@@ -154,6 +146,19 @@ public class Produto implements Serializable {
 	public String toString() {
 		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", promocao=" + promocao
 				+ ", novoProduto=" + novoProduto + ", preco=" + preco + "]";
+	}
+
+	public ProdutoResponse toDTO() {
+		ProdutoResponse produtoResponse = new ProdutoResponse();
+		produtoResponse.setId(id);
+		produtoResponse.setNome(nome);
+		produtoResponse.setNovoProduto(novoProduto);
+		produtoResponse.setPromocao(promocao);
+		produtoResponse.setPreco(preco);
+		produtoResponse.setDescricao(descricao);
+		produtoResponse.setCategoria(categoria.toDTO());
+		
+		return produtoResponse;
 	}
 
 }

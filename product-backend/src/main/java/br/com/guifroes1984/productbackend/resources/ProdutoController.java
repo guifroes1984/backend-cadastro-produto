@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.guifroes1984.productbackend.dto.ProdutoRequest;
+import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
 import br.com.guifroes1984.productbackend.models.Produto;
 import br.com.guifroes1984.productbackend.services.ProdutoService;
 
@@ -29,17 +31,17 @@ public class ProdutoController {
 	public ProdutoService produtoService;
 	
 	@PostMapping
-	public ResponseEntity<Produto> salvar(@Validated @RequestBody Produto produto) {
+	public ResponseEntity<ProdutoResponse> salvar(@Validated @RequestBody ProdutoRequest produtoRequest) {
 		
-		produto = produtoService.salvar(produto);
+		ProdutoResponse produtoResponse = produtoService.salvar(produtoRequest);
 		
 		URI local = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(produto.getId())
+				.buildAndExpand(produtoResponse.getId())
 				.toUri();
 		
-		return ResponseEntity.created(local).body(produto);
+		return ResponseEntity.created(local).body(produtoResponse);
 	}
 
 	@GetMapping("{id}")

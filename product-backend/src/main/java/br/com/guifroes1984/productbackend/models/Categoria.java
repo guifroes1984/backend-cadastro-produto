@@ -23,6 +23,10 @@ public class Categoria implements Serializable {
 
 	@Column(nullable = false, unique = true, length = 255)
 	private String nome;
+	
+	public Categoria(Integer id) {
+		this.id = id;
+	}
 
 	public Categoria(Integer id, String nome) {
 		this.id = id;

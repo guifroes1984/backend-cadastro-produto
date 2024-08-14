@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.guifroes1984.productbackend.dto.ProdutoRequest;
+import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
 import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.models.Produto;
 import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
@@ -31,8 +33,9 @@ public class ProdutoService {
 		return produtoRepository.findAll();
 	}
 	
-	public Produto salvar(Produto produto) {
-		return produtoRepository.save(produto);
+	public ProdutoResponse salvar(ProdutoRequest produtoRequest) {
+		Produto novoProduto = produtoRepository.save(produtoRequest.toEntity());
+		return novoProduto.toDTO();
 	}
 	
 	public void deleteById(long id) {
