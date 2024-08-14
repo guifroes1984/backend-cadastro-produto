@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -30,15 +31,19 @@ public class Produto implements Serializable {
 	private String nome;
 	
 	@Column(nullable = false, length = 1024)
+	@NotBlank(message = "Descrição não pode ser em branco")
+	@Size(min = 3, max = 1024, message = "Comprimento do descrição min=3 e max=1024")
 	private String descricao;
 
-	@ManyToOne
-	private Categoria categoria;
-
 	private boolean promocao;
+	
 	private boolean novoProduto;
 
+	@Min(value = 0, message = "Preço min valor = 0")
 	private Double preco;
+	
+	@ManyToOne
+	private Categoria categoria;
 
 	public Produto(Long id, String nome, double preco) {
 		this.id = id;
