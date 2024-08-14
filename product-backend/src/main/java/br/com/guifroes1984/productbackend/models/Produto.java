@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 
 
@@ -24,7 +24,7 @@ public class Produto implements Serializable {
 	private Long id;
 	
 	@Column(nullable = false)
-	@NotNull(message = "O nome não pode ser nulo")
+	@NotBlank(message = "O nome não pode ser em branco")
 	private String nome;
 	
 	@Column(nullable = false, length = 1024)
