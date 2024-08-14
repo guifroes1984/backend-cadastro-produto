@@ -45,8 +45,8 @@ public class CategoriaController {
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<Categoria> getCategorias(@PathVariable int id) {
-		Categoria categoria = categoriaService.getById(id);
+	public ResponseEntity<CategoriaResponse> getCategorias(@PathVariable int id) {
+		CategoriaResponse categoria = categoriaService.getDTOById(id);
 		return ResponseEntity.ok(categoria);
 	}
 
