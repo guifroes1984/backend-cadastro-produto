@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -43,6 +44,7 @@ public class Produto implements Serializable {
 	private Double preco;
 	
 	@ManyToOne
+	@Valid
 	private Categoria categoria;
 
 	public Produto(Long id, String nome, double preco) {

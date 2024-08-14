@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.guifroes1984.productbackend.dto.CategoriaRequest;
+import br.com.guifroes1984.productbackend.dto.CategoriaResponse;
 import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 
@@ -27,8 +29,9 @@ public class CategoriaService {
 		return categoriaRepository.findAll();
 	}
 	
-	public Categoria salvar(Categoria categoria) {
-		return categoriaRepository.save(categoria);
+	public CategoriaResponse salvar(CategoriaRequest categoriaRequest) {
+		Categoria categoria = categoriaRepository.save(categoriaRequest.toEntity());
+		return categoria.toDTO();
 	}
 	
 	public void deleteById(int id) {

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.guifroes1984.productbackend.dto.CategoriaRequest;
+import br.com.guifroes1984.productbackend.dto.CategoriaResponse;
 import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.services.CategoriaService;
 
@@ -29,9 +31,9 @@ public class CategoriaController {
 	public CategoriaService categoriaService;
 	
 	@PostMapping
-	public ResponseEntity<Categoria> salvar(@Validated @RequestBody Categoria categoria) {
+	public ResponseEntity<CategoriaResponse> salvar(@Validated @RequestBody CategoriaRequest categoriaRequest) {
 		
-		categoria = categoriaService.salvar(categoria);
+		CategoriaResponse categoria = categoriaService.salvar(categoriaRequest);
 		
 		URI local = ServletUriComponentsBuilder
 				.fromCurrentRequest()

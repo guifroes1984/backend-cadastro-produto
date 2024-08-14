@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import br.com.guifroes1984.productbackend.dto.CategoriaResponse;
 
 @Entity
 @Table(name = "TBL_CATEGORIA")
@@ -22,12 +22,14 @@ public class Categoria implements Serializable {
 	private Integer id;
 
 	@Column(nullable = false, unique = true, length = 255)
-	@NotBlank(message = "O nome não pode ser em branco")
-	@Size(min = 3, max = 255, message = "Comprimento do nome min=3 e max=255")
 	private String nome;
 
 	public Categoria(Integer id, String nome) {
 		this.id = id;
+		this.nome = nome;
+	}
+	
+	public Categoria(String nome) {
 		this.nome = nome;
 	}
 
@@ -49,6 +51,10 @@ public class Categoria implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public CategoriaResponse toDTO() {
+		return new CategoriaResponse(id, nome);
 	}
 
 	@Override
