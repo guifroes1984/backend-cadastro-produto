@@ -50,7 +50,7 @@ public class CategoriaService {
 		categoriaRepository.delete(Categoria);
 	}
 	
-	public void atualizar(int id, Categoria categoriaAtualizado) {
+	public void atualizar(int id, CategoriaRequest categoriaAtualizado) {
 		Categoria Categoria = getById(id);
 
 		Categoria.setNome(categoriaAtualizado.getNome());

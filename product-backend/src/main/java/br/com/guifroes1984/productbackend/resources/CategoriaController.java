@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.guifroes1984.productbackend.dto.CategoriaRequest;
 import br.com.guifroes1984.productbackend.dto.CategoriaResponse;
-import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.services.CategoriaService;
 
 @RestController
@@ -62,7 +61,7 @@ public class CategoriaController {
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<Void> atualizarCategoria(@PathVariable int id, @RequestBody Categoria categoriaAtualizado) {
+	public ResponseEntity<Void> atualizarCategoria(@PathVariable int id, @RequestBody CategoriaRequest categoriaAtualizado) {
 		categoriaService.atualizar(id, categoriaAtualizado);
 		return ResponseEntity.ok().build();
 	}
