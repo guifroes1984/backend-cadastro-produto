@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 
@@ -23,8 +24,9 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	@NotBlank(message = "O nome não pode ser em branco")
+	@Size(min = 3, max = 255, message = "Comprimento do nome min=3 e max=255")
 	private String nome;
 	
 	@Column(nullable = false, length = 1024)
