@@ -47,7 +47,7 @@ public class ProdutoService {
 		produtoRepository.delete(produto);
 	}
 	
-	public void atualizar(long id, Produto produtoAtualizado) {
+	public void atualizar(long id, ProdutoRequest produtoAtualizado) {
 		Produto produto = getById(id);
 		
 		if (produtoAtualizado.getCategoria() == null) {

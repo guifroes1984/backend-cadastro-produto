@@ -52,9 +52,7 @@ public class CategoriaService {
 	
 	public void atualizar(int id, CategoriaRequest categoriaAtualizado) {
 		Categoria Categoria = getById(id);
-
 		Categoria.setNome(categoriaAtualizado.getNome());
-		
 		categoriaRepository.save(Categoria);
 	}
 

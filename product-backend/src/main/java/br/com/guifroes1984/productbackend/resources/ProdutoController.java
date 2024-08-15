@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.guifroes1984.productbackend.dto.ProdutoRequest;
 import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
-import br.com.guifroes1984.productbackend.models.Produto;
 import br.com.guifroes1984.productbackend.services.ProdutoService;
 
 @RestController
@@ -62,7 +61,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<Void> atualizarProduto(@PathVariable long id, @RequestBody Produto produtoAtualizado) {
+	public ResponseEntity<Void> atualizarProduto(@PathVariable long id, @RequestBody ProdutoRequest produtoAtualizado) {
 		produtoService.atualizar(id, produtoAtualizado);
 		return ResponseEntity.ok().build();
 	}

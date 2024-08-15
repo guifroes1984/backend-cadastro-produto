@@ -7,7 +7,7 @@ import br.com.guifroes1984.productbackend.models.Categoria;
 
 public class CategoriaRequest {
 
-	@NotBlank(message = "O nome não pode ser em branco")
+	@NotBlank(message = "Categoria não pode estar vazia")
 	@Size(min = 3, max = 255, message = "Comprimento do nome min=3 e max=255")
 	private String nome;
 
