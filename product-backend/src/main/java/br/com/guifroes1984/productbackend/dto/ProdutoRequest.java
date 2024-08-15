@@ -1,7 +1,9 @@
 package br.com.guifroes1984.productbackend.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.guifroes1984.productbackend.models.Categoria;
@@ -24,6 +26,8 @@ public class ProdutoRequest {
 	@Min(value = 0, message = "Preço min valor = 0")
 	private double preco;
 
+	@NotNull
+	@Valid
 	private IntegerDTO categoria;
 
 	public String getNome() {
