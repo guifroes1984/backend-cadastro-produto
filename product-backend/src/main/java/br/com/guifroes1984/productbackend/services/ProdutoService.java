@@ -1,6 +1,7 @@
 package br.com.guifroes1984.productbackend.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,11 @@ public class ProdutoService {
 		return produto;
 	}
 	
-	public List<Produto> getAll() {
-		return produtoRepository.findAll();
+	public List<ProdutoResponse> getAll() {
+		return produtoRepository.findAll()
+								.stream()
+								.map(p -> p.toDTO())
+								.collect(Collectors.toList());
 	}
 	
 	public ProdutoResponse salvar(ProdutoRequest produtoRequest) {

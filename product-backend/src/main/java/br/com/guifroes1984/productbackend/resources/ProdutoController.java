@@ -51,7 +51,7 @@ public class ProdutoController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Produto>> getProdutos() {
+	public ResponseEntity<List<ProdutoResponse>> getProdutos() {
 		return ResponseEntity.ok(produtoService.getAll());
 	}
 	
