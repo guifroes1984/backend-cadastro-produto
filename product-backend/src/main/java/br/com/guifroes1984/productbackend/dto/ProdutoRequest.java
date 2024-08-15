@@ -22,7 +22,7 @@ public class ProdutoRequest {
 	private boolean novoProduto;
 
 	@Min(value = 0, message = "Preço min valor = 0")
-	private Double preco;
+	private double preco;
 
 	private IntegerDTO categoria;
 
@@ -58,11 +58,11 @@ public class ProdutoRequest {
 		this.novoProduto = novoProduto;
 	}
 
-	public Double getPreco() {
+	public double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(Double preco) {
+	public void setPreco(double preco) {
 		this.preco = preco;
 	}
 
