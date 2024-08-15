@@ -62,4 +62,9 @@ public class ProdutoService {
 		produtoRepository.save(produto);
 	}
 
+	public ProdutoResponse getDTOById(long id) {
+		Produto produto = getById(id);
+		return produto.toDTO();
+	}
+
 }
