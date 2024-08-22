@@ -63,9 +63,13 @@ public class CategoriaService {
 	}
 	
 	public void atualizar(int id, CategoriaRequest categoriaAtualizado) {
-		Categoria Categoria = getById(id);
-		Categoria.setNome(categoriaAtualizado.getNome());
-		categoriaRepository.save(Categoria);
+		try {
+			Categoria Categoria = categoriaRepository.getReferenceById(id);
+			Categoria.setNome(categoriaAtualizado.getNome());
+			categoriaRepository.save(Categoria);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("Categoria não encontrada");
+		}
 	}
 
 }
