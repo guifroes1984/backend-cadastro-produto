@@ -16,7 +16,6 @@ import br.com.guifroes1984.productbackend.dto.ProdutoRequest;
 import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
 import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.models.Produto;
-import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
 
 @Service
@@ -25,14 +24,11 @@ public class ProdutoService {
 	@Autowired
 	public ProdutoRepository produtoRepository;
 
-	@Autowired
-	public CategoriaRepository categoriaRepository;
-
-	public Produto getById(long id) {
+	public ProdutoResponse getById(long id) {
 		Produto produto = produtoRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
 
-		return produto;
+		return produto.toDTO();
 	}
 
 	public List<ProdutoResponse> getAll() {
@@ -77,11 +73,6 @@ public class ProdutoService {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityNotFoundException("Categoria não encontrado");
 		}
-	}
-
-	public ProdutoResponse getDTOById(long id) {
-		Produto produto = getById(id);
-		return produto.toDTO();
 	}
 
 }
