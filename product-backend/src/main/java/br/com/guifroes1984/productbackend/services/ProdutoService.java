@@ -3,7 +3,10 @@ package br.com.guifroes1984.productbackend.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,8 +47,11 @@ public class ProdutoService {
 	}
 	
 	public void deleteById(long id) {
-		Produto produto = getById(id);
-		produtoRepository.delete(produto);
+		try {
+			produtoRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Produto não encontrado");
+		}
 	}
 	
 	public void atualizar(long id, ProdutoRequest produtoAtualizado) {
