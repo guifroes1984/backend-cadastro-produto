@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -55,19 +56,26 @@ public class ProdutoService {
 	}
 	
 	public void atualizar(long id, ProdutoRequest produtoAtualizado) {
-		Produto produto = getById(id);
 		
-		Categoria categoria = categoriaRepository.findById(produtoAtualizado.getCategoria().getId())
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
-		
-		produto.setDescricao(produtoAtualizado.getDescricao());
-		produto.setNome(produtoAtualizado.getNome());
-		produto.setPreco(produtoAtualizado.getPreco());
-		produto.setNovoProduto(produtoAtualizado.isNovoProduto());
-		produto.setPromocao(produtoAtualizado.isPromocao());
-		produto.setCategoria(categoria);
-		
-		produtoRepository.save(produto);
+		try {
+			Produto produto = produtoRepository.getReferenceById(id);
+			
+			Categoria categoria = new Categoria(produtoAtualizado.getCategoria().getId());
+			
+			produto.setDescricao(produtoAtualizado.getDescricao());
+			produto.setNome(produtoAtualizado.getNome());
+			produto.setPreco(produtoAtualizado.getPreco());
+			produto.setNovoProduto(produtoAtualizado.isNovoProduto());
+			produto.setPromocao(produtoAtualizado.isPromocao());
+			produto.setCategoria(categoria);
+			
+			produtoRepository.save(produto);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("Produto não encontrado");
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new EntityNotFoundException("Categoria não encontrado");
+		}
 	}
 
 	public ProdutoResponse getDTOById(long id) {
