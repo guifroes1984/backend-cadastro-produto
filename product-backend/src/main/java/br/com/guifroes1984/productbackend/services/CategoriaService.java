@@ -8,9 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.guifroes1984.productbackend.dto.CategoriaRequest;
 import br.com.guifroes1984.productbackend.dto.CategoriaResponse;
@@ -26,7 +24,7 @@ public class CategoriaService {
 	
 	public CategoriaResponse getById(int id) {
 		Categoria categoria = categoriaRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
+				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 		
 		return categoria.toDTO();
 	}

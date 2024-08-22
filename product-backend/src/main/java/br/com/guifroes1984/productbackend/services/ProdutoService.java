@@ -8,9 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.guifroes1984.productbackend.dto.ProdutoRequest;
 import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
@@ -26,7 +24,7 @@ public class ProdutoService {
 
 	public ProdutoResponse getById(long id) {
 		Produto produto = produtoRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
+				.orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
 
 		return produto.toDTO();
 	}
