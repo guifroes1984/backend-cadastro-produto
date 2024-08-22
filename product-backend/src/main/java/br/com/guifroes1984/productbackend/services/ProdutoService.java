@@ -21,32 +21,34 @@ import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
 
 @Service
 public class ProdutoService {
-	
+
 	@Autowired
 	public ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	public CategoriaRepository categoriaRepository;
-	
+
 	public Produto getById(long id) {
 		Produto produto = produtoRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
-		
+
 		return produto;
 	}
-	
+
 	public List<ProdutoResponse> getAll() {
-		return produtoRepository.findAll()
-								.stream()
-								.map(p -> p.toDTO())
-								.collect(Collectors.toList());
+		return produtoRepository.findAll().stream().map(p -> p.toDTO()).collect(Collectors.toList());
 	}
-	
+
 	public ProdutoResponse salvar(ProdutoRequest produtoRequest) {
-		Produto novoProduto = produtoRepository.save(produtoRequest.toEntity());
-		return novoProduto.toDTO();
+		try {
+			Produto novoProduto = produtoRepository.save(produtoRequest.toEntity());
+			return novoProduto.toDTO();
+		} catch (DataIntegrityViolationException e) {
+			throw new EntityNotFoundException("Categoria não encontrado");
+		}
+
 	}
-	
+
 	public void deleteById(long id) {
 		try {
 			produtoRepository.deleteById(id);
@@ -54,26 +56,25 @@ public class ProdutoService {
 			throw new EntityNotFoundException("Produto não encontrado");
 		}
 	}
-	
+
 	public void atualizar(long id, ProdutoRequest produtoAtualizado) {
-		
+
 		try {
 			Produto produto = produtoRepository.getReferenceById(id);
-			
+
 			Categoria categoria = new Categoria(produtoAtualizado.getCategoria().getId());
-			
+
 			produto.setDescricao(produtoAtualizado.getDescricao());
 			produto.setNome(produtoAtualizado.getNome());
 			produto.setPreco(produtoAtualizado.getPreco());
 			produto.setNovoProduto(produtoAtualizado.isNovoProduto());
 			produto.setPromocao(produtoAtualizado.isPromocao());
 			produto.setCategoria(categoria);
-			
+
 			produtoRepository.save(produto);
 		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundException("Produto não encontrado");
-		}
-		catch (DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new EntityNotFoundException("Categoria não encontrado");
 		}
 	}
