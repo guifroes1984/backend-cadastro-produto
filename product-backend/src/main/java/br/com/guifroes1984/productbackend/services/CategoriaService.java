@@ -3,8 +3,11 @@ package br.com.guifroes1984.productbackend.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -50,8 +53,12 @@ public class CategoriaService {
 	public void deleteById(int id) {
 		try {
 			categoriaRepository.deleteById(id);
-		} catch (DataIntegrityViolationException e) {
+		} 
+		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Restringir violação, categoria não pode ser excluída");
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Categoria não encontrada");
 		}
 	}
 	

@@ -2,6 +2,7 @@ package br.com.guifroes1984.productbackend.resources.exceptions;
 
 import java.time.Instant;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,22 @@ public class ResourceExceptionHandler {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
 		error.setError("Database exception");
+		error.setMessage(exception.getMessage());
+		error.setPath(request.getRequestURI());
+		error.setStatus(status.value());
+		error.setTimeStamp(Instant.now());
+		
+		return ResponseEntity.status(status).body(error);
+	}
+	
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<StandardError> entityNotFoundException(EntityNotFoundException exception, HttpServletRequest request) {
+		
+		StandardError error = new StandardError();
+		
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		
+		error.setError("Recurso não encontrado");
 		error.setMessage(exception.getMessage());
 		error.setPath(request.getRequestURI());
 		error.setStatus(status.value());
