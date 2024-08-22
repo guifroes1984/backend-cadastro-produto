@@ -24,18 +24,11 @@ public class CategoriaService {
 	@Autowired
 	public CategoriaRepository categoriaRepository;
 	
-	public CategoriaResponse getDTOById(int id) {
+	public CategoriaResponse getById(int id) {
 		Categoria categoria = categoriaRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
 		
 		return categoria.toDTO();
-	}
-	
-	public Categoria getById(int id) {
-		Categoria Categoria = categoriaRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
-		
-		return Categoria;
 	}
 	
 	public List<CategoriaResponse> getAll() {

@@ -12,6 +12,7 @@ import br.com.guifroes1984.productbackend.dto.ProdutoRequest;
 import br.com.guifroes1984.productbackend.dto.ProdutoResponse;
 import br.com.guifroes1984.productbackend.models.Categoria;
 import br.com.guifroes1984.productbackend.models.Produto;
+import br.com.guifroes1984.productbackend.repositories.CategoriaRepository;
 import br.com.guifroes1984.productbackend.repositories.ProdutoRepository;
 
 @Service
@@ -21,7 +22,7 @@ public class ProdutoService {
 	public ProdutoRepository produtoRepository;
 	
 	@Autowired
-	public CategoriaService categoriaService;
+	public CategoriaRepository categoriaRepository;
 	
 	public Produto getById(long id) {
 		Produto produto = produtoRepository.findById(id)
@@ -50,11 +51,8 @@ public class ProdutoService {
 	public void atualizar(long id, ProdutoRequest produtoAtualizado) {
 		Produto produto = getById(id);
 		
-		if (produtoAtualizado.getCategoria() == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não pode ser vazia");
-		}
-		
-		Categoria categoria = categoriaService.getById(produtoAtualizado.getCategoria().getId());
+		Categoria categoria = categoriaRepository.findById(produtoAtualizado.getCategoria().getId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
 		
 		produto.setDescricao(produtoAtualizado.getDescricao());
 		produto.setNome(produtoAtualizado.getNome());
